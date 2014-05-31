@@ -1,0 +1,15 @@
+Method-of-Moments solvers toolkit in MATLAB
+===========================================
+
+The toolkit includes Laplace and Helmholtz equation solvers in two and three dimensions which may have variety of applications, but this toolkit mostly focuses on electromagnetics. The examples include calculation of capacitance, resistance and inductance of a system of conductors (in particular per-length parameters of a transmission line), impedance of a transmission plane. (pair of conducting planes) Refer to mom/examples and mom/tests.
+
+
+
+
+
+
+
+
+
+
+
