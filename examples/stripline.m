@@ -1,7 +1,7 @@
 
 addpath(genpath([ pwd, '/..' ]));
 %
-% Compute per-length capacitance of a microstrip.
+% Compute per-length capacitance of a stripline.
 %
 
 % The geometry - trace above ground
