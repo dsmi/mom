@@ -1,5 +1,5 @@
-function Z = extractz2(edges, verts, ports, intgsl, intgdl)
-% Z = extractz2(edges, verts, ports, intgsl, intgdl)
+function [ Z u q ] = extractz2(edges, verts, ports, intgsl, intgdl)
+% [ Z u q ] = extractz2(edges, verts, ports, intgsl, intgdl)
 % 
 % Given N ports, calculates NxN impedance matrix. To calculate the matrix,
 % unity current is applied to the ports one by one, and each time a boundary
@@ -18,6 +18,10 @@ function Z = extractz2(edges, verts, ports, intgsl, intgdl)
 %            potential, is used to call mkmommat2.
 % Outputs:
 %   Z      - the resulting impedance matrix.
+%   u, q   - num_of_ports-by-num_of_edges boundary voltages and currents
+%            obtained when applying the unity currents to the ports to
+%            find the impedance. This is the auxiliary data which may be
+%            used for example to plot the voltage distributions.
 %
 
 % Number of the edges
