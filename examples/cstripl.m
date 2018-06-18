@@ -8,12 +8,13 @@ addpath(genpath([ pwd, '/..' ]));
 h=5e-4;     % height above ground
 xg=h*10;    % width of the ground
 yg=h;       % thickness of the ground
-nxg=200;    % number of the segments along x in the ground
-nyg=20;     % number of the segments along y in the ground
 xt=1e-2/32*4 % trace width
-yt=1e-6;%xt/50;     % trace thickness
-nxt=500;    % number of segments along x in the trace
-nyt=1;       % number of segments along y in the trace
+yt=xt/10;    % trace thickness
+mn = 1;     % mesh detail multiplier
+nxg=5*mn;    % number of the segments along x in the ground
+nyg=1*mn;    % number of the segments along y in the ground
+nxt=3*mn;    % number of segments along x in the trace
+nyt=1*mn;    % number of segments along y in the trace
 
 % trace
 [ e, v ] = mkrect2d(xt, yt, nxt, nyt);
@@ -43,7 +44,7 @@ c1 = 1:(nxt*2+nyt*2);
 c2 = (nxt*2+nyt*2+1):size(edges, 1);
 conductors = { c1 c2 };
 
-%plotmesh2d(edges, verts, { c2 }, 1)
+plotmesh2d(edges, verts, { c2 }, 1)
 
 nedges = size(edges, 1);
 
@@ -52,3 +53,4 @@ epsin = 0*epsout;
 C2 = extractc2(edges, verts, epsout, epsin, conductors);
 C=C2(1,1)
 L=eps0*mu0/C
+Z0 = sqrt(L/C)
