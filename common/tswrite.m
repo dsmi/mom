@@ -1,16 +1,24 @@
-function tswrite(fileName, freq, Y)
-% tswrite(fileName, freq, Y)
+function tswrite(fileName, freq, Y, t, r0)
+% tswrite(fileName, freq, Y, t, r0)
 %
 % Writes multiport network parameters in Touchstone format
-% Now only handles y-parameters with up to 4 ports
+% Now only handles up to 4 ports
 %
 
 comment = 'no comment supplied';
 
 f = fopen(fileName, 'wt');
 
+if ~exist('t')
+    t = 'Y';
+end
+
+if ~exist('r0')
+    r0 = 50.0;
+end
+
 fprintf(f, '%s\n', ['! ' comment]);
-fprintf(f, '%s\n', '# Hz Y RI R 50');
+fprintf(f, '# Hz %s RI R %.11e\n', t, r0);
 
 N = size(Y, 1);
 nf = size(Y, 3);
