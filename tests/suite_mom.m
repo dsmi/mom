@@ -18,3 +18,4 @@ addTest('test_spiralr2d');
 addTest('test_stripr2d');
 addTest('test_cplen');
 addTest('test_mkbases2d');
+addTest('test_intg_lapsl2l');
