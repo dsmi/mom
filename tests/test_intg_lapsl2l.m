@@ -86,8 +86,7 @@ vs = intg_lapsl2l( ra, rb, ua, ub, rc, rd, uc, ud );
 % Offset applied here to use the 'regular' calculation with quadrature
 vst = intg_lapsl2l( ra, rb, ua, ub, rc + 1e-11, rd + 1e-11, uc, ud );
 
-assertEquals(vst(1:2), vs(1:2), 1e-7);
-assertEquals(vst(3), vs(3), 1e-4);
+assertEquals(vst, vs, 1e-3);
 
 % To make sure the different calculation routines are used
 assertTrue( ~nnz( vst == vs ) );

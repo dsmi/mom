@@ -36,8 +36,8 @@ obsl = sqrt( sum( ( rd - rc ).^2, 2 ) );
 v = 0 * ua;
 
 % Quadrature is used to integrate over the observation segments
-%[qx,qw] = GLTable(7);
-[qx,qw] = GLNodeWt(21);
+[qx,qw] = GLTable(7);
+%[qx,qw] = GLNodeWt(21);
 
 for xw = [ reshape( qx, 1, [] ) ; reshape( qw, 1, [] ) ]
 
