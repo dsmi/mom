@@ -23,7 +23,7 @@ vq = intg_lapdn2lq( ra, rb, ua, ub, rc, rd, uc, ud );
 
 assertEquals(vq, v, 1e-6)
 
-% Edges lying on the same plane
+% Edges lying on the same line
 ra   = [ 2  1 ];
 rb   = [ 3  1 ];
 ua   = [   2  ];

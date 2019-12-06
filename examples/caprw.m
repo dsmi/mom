@@ -64,7 +64,7 @@ Cmutual = (C(1,1)-C(2,1))/2 % Mutual capacitance
 %% % the radius is much smaller than separation
 %% c_per_l = pi*eps0/acosh(d/(2*r)) % Does not assume uniform current
 
-M = mkmommat2l( edges, verts, bases, @intg_lapsl2l );
+%M = mkmommat2l( edges, verts, bases, @intg_lapsl2l );
 
 % piecewise-linear approximation
 CL = extractc2l(edges, verts, bases, eps0, cndbases);

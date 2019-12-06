@@ -90,3 +90,18 @@ assertEquals(vst, vs, 1e-3);
 
 % To make sure the different calculation routines are used
 assertTrue( ~nnz( vst == vs ) );
+
+% Edges lying on the same line
+ra   = [ 2  1 ];
+rb   = [ 3  1 ];
+ua   = [   2  ];
+ub   = [  -1  ];
+
+rc   = [ 4  1 ];
+rd   = [ 5  1 ];
+uc   = [ -0.5 ];
+ud   = [  1.5 ];
+
+% Just to make sure no division by zero happens
+v = intg_lapsl2l( ra, rb, ua, ub, rc, rd, uc, ud );
+

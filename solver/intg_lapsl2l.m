@@ -59,8 +59,12 @@ for xw = [ reshape( qx, 1, [] ) ; reshape( qw, 1, [] ) ]
     c = ( b.*ua - a.*ub ) ./ l;
     g = ( ub - ua ) ./ l;
 
+    % This is to avoid division by zero. h can be negative, but it is unlikely
+    % to ever be equal to -1e-300
+    hnz = h + 1e-300;
+
     vq = 1/4*( log(lb2).*( 2*c.*b + g.*lb2 ) - log(la2).*( 2*c.*a + g.*la2 ) ...
-          - 4*l.*c - g.*( b.*b - a.*a ) + 4*c.*h.*( atan(b./h) - atan(a./h) ) );
+          - 4*l.*c - g.*( b.*b - a.*a ) + 4*c.*h.*( atan(b./hnz) - atan(a./hnz) ) );
 
     v = v + xw(2) .* uobs .* obsl./2 .* vq;
 
