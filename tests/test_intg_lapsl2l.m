@@ -1,4 +1,4 @@
-%function test_intg_lapsl2l
+function test_intg_lapsl2l
 %
 % Test intg_lapsl2l
 %
@@ -90,4 +90,3 @@ assertEquals(vst, vs, 1e-3);
 
 % To make sure the different calculation routines are used
 assertTrue( ~nnz( vst == vs ) );
-
