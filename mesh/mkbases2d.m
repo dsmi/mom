@@ -7,12 +7,16 @@ function b = mkbases2d(e)
 % The current implementation assumes that each vertex has a base
 % associated with it.
 
-% Number of vertices
-nv = max(e(:));
-    
-b1 = b2 = -ones( nv, 1 );
+% Incoming and outgoing edges of a vertex (assuming no vertices
+% with more than two edges connected)
+ei = eo = zeros( max( e(:) ), 1 );
+ei(e(:,2)) = 1:size(e,1);
+eo(e(:,1)) = 1:size(e,1);
 
-b1( e(:,2) ) = 1:nv;
-b2( e(:,1) ) = 1:nv;
+% Indices of the vertices with two edges connected.
+v = find( ei > 0 & eo > 0);
 
-b = [ b1, b2 ];
+% Finally, bases!
+b = [ v*0 v*0 ];
+b(:,1) = ei(v);
+b(:,2) = eo(v);

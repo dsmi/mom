@@ -39,23 +39,17 @@ verts = [ verts; v ];
 r = w; % So the bases lookup works correctly
 
 %% plotmesh2d(edges,verts,{},0)
-bases = mkbases2d( edges );
 
 % Find edges which belong to each of the conductors
-ce1 = find_edges2d( edges, verts, -d/2, 0, r*1.1 );
-ce2 = find_edges2d( edges, verts, d/2, 0, r*1.1 );
-cndedges = { ce1' ce2' };
-
-% And bases which belong to each of the conductors
-cb1 = find_bases2d( edges, verts, bases, -d/2, 0, r*1.1 );
-cb2 = find_bases2d( edges, verts, bases,  d/2, 0, r*1.1 );
-cndbases = { cb1' cb2' };
+conductor1 = find_edges2d( edges, verts, -d/2, 0, r*1.1 );
+conductor2 = find_edges2d( edges, verts, d/2, 0, r*1.1 );
+conductors = { conductor1' conductor2' };
 
 nedges = size( edges, 1 );
 
 epsout = repmat(eps0, nedges, 1);
 epsin = 0*epsout;
-C = extractc2(edges, verts, epsout, epsin, cndedges);
+C = extractc2( edges, verts, epsout, epsin, conductors );
 
 Cmutual = (C(1,1)-C(2,1))/2 % Mutual capacitance
 
@@ -67,7 +61,7 @@ Cmutual = (C(1,1)-C(2,1))/2 % Mutual capacitance
 %M = mkmommat2l( edges, verts, bases, @intg_lapsl2l );
 
 % piecewise-linear approximation
-CL = extractc2l(edges, verts, bases, eps0, cndbases);
+CL = extractc2l( edges, verts, epsout, epsin, conductors );
 Cmutlin = (CL(1,1)-CL(2,1))/2 % Mutual capacitance with pwl approximation
 
 Cexact = 1.293119e-11
