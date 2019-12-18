@@ -1,5 +1,5 @@
-function C = extractc2l( edges, verts, epsout, epsin, conductors )
-% C = extractc2l( edges, verts, epsout, epsin, conductors )
+function C = extractc2l( edges, verts, bases, epsout, epsin, conductors )
+% C = extractc2l( edges, verts, bases, epsout, epsin, conductors )
 % 
 % Calculates N-by-N capacitance matrix of N-conductor system similar to
 % what extractc2 does, but using piecewise-linear basis functions.
@@ -8,6 +8,7 @@ function C = extractc2l( edges, verts, epsout, epsin, conductors )
 %   edges      - num_of_edges-by-2 matrix of the indices of the edge endpoint
 %                vertices
 %   verts      - num_of_verts-by-2 matrix of the coordinates of the vertices.
+%   bases      - num_of_bases-by-2 pair of edges forming a basis function
 %   epsout     - column vector of lenght num_of_edges, permittivity outside
 %                the given edge: the side where the normal of the edge points
 %                is considered outside.
@@ -17,10 +18,6 @@ function C = extractc2l( edges, verts, epsout, epsin, conductors )
 % Outputs:
 %   C          - the resulting capacitance matrix.
 %
-
-% This defines the basis functions -- each associated with a pair
-% of edges sharing a vertex.
-bases = mkbases2d( edges );
 
 % Number of the edges
 ne = size( edges, 1 );

@@ -7,7 +7,7 @@ addpath(genpath([ pwd, '/..' ]));
 % The geometry - two round wires in two dielectrics
 r = 5e-4;   % Radius of the wires
 d = 1.5e-3; % Separation - distance between the centers
-a = 10;      % Mesh accuracy multiplier
+a = 1;      % Mesh accuracy multiplier
 n = 4*a;    % Number of boundary elements around the wire
 o = 0;      % dielectric boundary offset
 l = 2e-2;   % dielectric boundary length
@@ -30,8 +30,6 @@ v = v + repmat([ o 0 ], size(v, 1), 1);
 edges = [ edges; e + size(verts, 1) ];
 verts = [ verts; v ];
 
-%% plotmesh2d(edges,verts,{},0)
-
 % Find edges which belong to each of the conductors
 conductor1 = find_edges2d( edges, verts, 0, -d/2, r*1.1 );
 conductor2 = find_edges2d( edges, verts, 0, d/2, r*1.1 );
@@ -46,18 +44,23 @@ nedges = size( edges, 1 );
 epsout = zeros(nedges, 1);
 epsout(conductor1) = epsd1;
 epsout(conductor2) = epsd2;
-epsout(dieledges) = epsd1;
+epsout(dieledges) = epsd2;
 epsin  = eps0 + 0*epsout;
-epsin(dieledges) = epsd2;
+epsin(dieledges) = epsd1;
+
+bases = mkbases2d( edges );
+
+%% plotmesh2d(edges,verts,{},1)
+%% plotbases2d(edges,verts,bases)
 
 C = extractc2( edges, verts, epsout, epsin, conductors );
 
 Cmutual = (C(1,1)-C(2,1))/2 % Mutual capacitance
 
 %% % piecewise-linear approximation
-CL = extractc2l(edges, verts, epsout, epsin, conductors );
+CL = extractc2l(edges, verts, mkbases2d( edges ), epsout, epsin, conductors );
 Cmutlin = (CL(1,1)-CL(2,1))/2 % Mutual capacitance with pwl approximation
 
-Cexact = 4.5526e-11; % calculated with detailed mesh
-Cpwc_err = abs( Cexact - Cmutual ) / Cmutual
-Cpwl_err = abs( Cexact - Cmutlin ) / Cmutual
+%% Cexact = 4.5526e-11; % calculated with detailed mesh
+%% Cpwc_err = abs( Cexact - Cmutual ) / Cmutual
+%% Cpwl_err = abs( Cexact - Cmutlin ) / Cmutual
