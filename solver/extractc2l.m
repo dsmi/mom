@@ -54,12 +54,29 @@ baselen = edgelen( bases(:,1) ) + edgelen( bases(:,2) );
 % P are the potential coefficients and E are the electric field
 % coefficients.
 
-% intg_lapsl2dl omits -1/(2*pi) multiplier so we add it here
-P = (1/eps0)*(-1/(2*pi))*mkmommat2l(edges, verts, bases, @intg_lapsl2l);
+% Beginning and end vertices of the edge
+ev0 = verts( edges(:,1), : ); 
+ev1 = verts( edges(:,2), : );
 
-% -1/(2*pi) multiplier here as well, and we also change sign because
-% intg_lapdn2d assumes different edges orientation
-E = (1/eps0)*( 1/(2*pi))*mkmommat2l(edges, verts, bases, @intg_lapdn2l);
+% Multiplier to be applied to the integrals
+m = (1/eps0)*(-1/(2*pi));
+
+% Integration funtion wrapper so the mkmommat only needs to pass the edges
+intgp = @( srcedge, ua, ub, obsedge, uc, ud ) ...
+         m * intg_lapsl2l( ev0( srcedge, : ), ev1( srcedge, : ), ua, ub, ...
+                           ev0( obsedge, : ), ev1( obsedge, : ), uc, ud );
+
+% P matrix, charge-to-potential
+P = mkmommat2l( bases, intgp );
+
+% Wrapper for intg_lapdn2d, sign is changed because intg_lapdn2d assumes
+% different edges orientation
+intge = @( srcedge, ua, ub, obsedge, uc, ud ) ...
+        - m * intg_lapdn2l( ev0( srcedge, : ), ev1( srcedge, : ), ua, ub, ...
+                            ev0( obsedge, : ), ev1( obsedge, : ), uc, ud );
+
+% E matrix, charge-to-normal-E-field, self-terms to be added
+E = mkmommat2l( bases, intge );
 
 % Diagonal terms added to E
 E = E + (1/eps0)*diag( 1/2*baselen./2.*(eout+ein)./(eout-ein+iscnd) );
