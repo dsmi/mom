@@ -25,11 +25,6 @@ ne = size( edges, 1 );
 % Number of the bases
 nb = size( bases, 1 );
 
-% Inner and outer dielectric permittivities for a base. Here we assume that
-% it is the same for both edges forming a base
-eout = epsout( bases(:,1) );
-ein  = epsin ( bases(:,1) );
-
 % Bases forming the conductor boundaries
 conductor_bases = cellfun( @( c ) find( ismember( bases(:,1), c ) ), ...
                            conductors, 'UniformOutput', false );
@@ -75,11 +70,18 @@ intge = @( srcedge, ua, ub, obsedge, uc, ud ) ...
         - m * intg_lapdn2l( ev0( srcedge, : ), ev1( srcedge, : ), ua, ub, ...
                             ev0( obsedge, : ), ev1( obsedge, : ), uc, ud );
 
-% E matrix, charge-to-normal-E-field, self-terms to be added
-E = mkmommat2l( bases, intge );
+% Self-terms of E matrix calculation
+intgs = @( srcedge, ua, ub, obsedge, uc, ud ) ...
+         intg_lapes2l( edgelen, epsout, epsin, ...
+                       srcedge, ua, ub, obsedge, uc, ud );
 
-% Diagonal terms added to E
-E = E + (1/eps0)*diag( 1/2*baselen./2.*(eout+ein)./(eout-ein+iscnd) );
+% E matrix, charge to normal D (displacement) discontinuity
+E = mkmommat2l( bases, intge ) + mkmommat2l( bases, intgs );
+
+%% % Diagonal terms added to E
+%% eout = epsout( bases(:,1) );
+%% ein  = epsin ( bases(:,1) );
+%% E = E + (1/eps0)*diag( 1/2*baselen./2.*(eout+ein)./(eout-ein+iscnd) );
 
 % lhs matrix, elements of P/E are used for conductor/dielecteic boundary
 A = diag(iscnd)*P + diag(1-iscnd)*E;
