@@ -37,7 +37,7 @@ v = 0 * ua;
 
 % Quadrature is used to integrate over the observation segments
 [qx,qw] = GLTable(7);
-%[qx,qw] = GLNodeWt(21);
+%% [qx,qw] = GLNodeWt(21);
 
 for xw = [ reshape( qx, 1, [] ) ; reshape( qw, 1, [] ) ]
 
@@ -116,3 +116,6 @@ vs = l.^2 .* ( 1/8*log( l.^2 ).*(ud+uc).*(ua+ub) ...
 sidx = find( all( abs(ra-rc)<1e-12 & abs( abs(rb-rd)<1e-12 ), 2) );
 
 v(sidx) = vs(sidx);
+
+%% % Zero zero-len edges
+%% v( find( all( ra == rb, 2 ) | all( rc == rd, 2 ) ) ) = 0;

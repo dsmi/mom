@@ -64,7 +64,7 @@ intgp = @( srcedge, ua, ub, obsedge, uc, ud ) ...
 % P matrix, charge-to-potential
 P = mkmommat2l( bases, intgp );
 
-% Wrapper for intg_lapdn2d, sign is changed because intg_lapdn2d assumes
+% Wrapper for intg_lapdn2l, sign is changed because intg_lapdn2l assumes
 % different edges orientation
 intge = @( srcedge, ua, ub, obsedge, uc, ud ) ...
         - m * intg_lapdn2l( ev0( srcedge, : ), ev1( srcedge, : ), ua, ub, ...
@@ -72,16 +72,11 @@ intge = @( srcedge, ua, ub, obsedge, uc, ud ) ...
 
 % Self-terms of E matrix calculation
 intgs = @( srcedge, ua, ub, obsedge, uc, ud ) ...
-         intg_lapes2l( edgelen, epsout, epsin, ...
+         intg_lapdn2s( edgelen, epsout, epsin, ...
                        srcedge, ua, ub, obsedge, uc, ud );
 
 % E matrix, charge to normal D (displacement) discontinuity
 E = mkmommat2l( bases, intge ) + mkmommat2l( bases, intgs );
-
-%% % Diagonal terms added to E
-%% eout = epsout( bases(:,1) );
-%% ein  = epsin ( bases(:,1) );
-%% E = E + (1/eps0)*diag( 1/2*baselen./2.*(eout+ein)./(eout-ein+iscnd) );
 
 % lhs matrix, elements of P/E are used for conductor/dielecteic boundary
 A = diag(iscnd)*P + diag(1-iscnd)*E;

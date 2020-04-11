@@ -57,7 +57,7 @@ v = 0 * ua;
 
 % Quadrature is used to integrate over the observation segments
 [qx,qw] = GLTable(7);
-%[qx,qw] = GLNodeWt(31);
+%% [qx,qw] = GLNodeWt(31);
 
 for xw = [ reshape( qx, 1, [] ) ; reshape( qw, 1, [] ) ]
 
@@ -107,3 +107,7 @@ sidx = find( all( abs(ra-rc)<1e-12 & abs( abs(rb-rd)<1e-12 ), 2) );
 % Integral of the normal derivative is zero for the self terms -- due
 % to the symmetry.
 v(sidx) = 0*v(sidx);
+
+%% % Zero zero-len edges
+%% v( find( all( ra == rb, 2 ) | all( rc == rd, 2 ) ) ) = 0;
+
