@@ -53,7 +53,7 @@ epsout( d2a ) = eps2;
 
 % Ground plane
 gpl = find_eol2d( edges, verts, 0, 1, -b );
-epsin( gpl ) = eps2;
+epsout( gpl ) = eps2;
 
 bases = mkbases2d( edges );
 
@@ -71,5 +71,5 @@ Cl = cperlen( extractc2l( edges, verts, bases, epsout, epsin, cnd_edges ) );
 
 % The accurate solution is ~7.2, but we can not use dense mesh here
 % from the performance reasons
-assertEquals( 6.372527e-11, C, 1e-15);
-assertEquals( 6.99453e-11, Cl, 1e-15);
+assertEquals( 6.525e-11, C, 1e-15);
+assertEquals( 7.1936e-11, Cl, 1e-15);

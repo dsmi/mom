@@ -56,7 +56,7 @@ epsout( d2a ) = eps2;
 
 % Ground plane
 gpl = find_eol2d( edges, verts, 0, 1, -b );
-epsin( gpl ) = eps2;
+epsout( gpl ) = eps2;
 
 bases = mkbases2d( edges );
 
