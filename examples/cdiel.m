@@ -3,6 +3,7 @@
 % Compute per-length capacitance of three parallel wires of
 % square crossection immersed in layered dielectric.
 %
+addpath(genpath([ pwd, '/..' ]));
 
 % The geometry - three conductors of square crossection
 l  = 1e-4;   % side of the crossection
@@ -72,12 +73,12 @@ for iseg = 1:size(segs, 1)
   epsin = [ epsin ; repmat(segi(iseg), nn, 1) ];
 end
 
-%plotmesh2d(edges, verts, conductors, 1);
+%% plotmesh2d(edges, verts, conductors, 1);
 
-% Has been validated against 3rd party results
-C_test = ...
-  [ 1.4889e-010  -1.2942e-010  -1.4218e-011 ; ...
-  -1.2846e-010  2.0865e-010  -7.8704e-011  ; ...
-  -1.4052e-011  -7.9643e-011  9.9235e-011 ];
+%% % Has been validated against 3rd party results
+%% C_test = ...
+%%   [ 1.4889e-010  -1.2942e-010  -1.4218e-011 ; ...
+%%   -1.2846e-010  2.0865e-010  -7.8704e-011  ; ...
+%%   -1.4052e-011  -7.9643e-011  9.9235e-011 ];
 
 C = extractc2(edges, verts, epsout, epsin, conductors)
